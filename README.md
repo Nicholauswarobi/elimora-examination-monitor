@@ -3,6 +3,9 @@
 This repository holds the installers for the **Elimora Examination Monitor**, the desktop app that some
 Elimora examinations ask students to run beside the examination page. It contains no source code.
 
+> **Elimora's address is [www.elimora.co.tz](https://www.elimora.co.tz)** (`elimora.co.tz` opens the
+> same site). The app connects to Elimora at that address and nowhere else.
+
 ## Download
 
 | Computer | Download |
@@ -12,23 +15,27 @@ Elimora examinations ask students to run beside the examination page. It contain
 | Linux | Not available yet |
 
 Every version: [Releases](https://github.com/Nicholauswarobi/elimora-examination-monitor/releases).
-Step-by-step instructions and help: https://elimora-platform.vercel.app/download
+Step-by-step instructions and help: https://www.elimora.co.tz/download
+
+**Installed version 1.0.0? Install the latest version over it.** Version 1.0.0 was a test build that
+only worked with a temporary test address, so it cannot connect to your examination on
+www.elimora.co.tz. Installing the new version replaces it; you do not need to uninstall first.
 
 ## Install on Windows
 
 1. Download the installer above.
 2. Open it. It installs for your account only and does not ask for an administrator password.
 3. Windows may show **"Windows protected your PC"**, because the installer is not code-signed yet.
-   Check that you downloaded it from this page or from https://elimora-platform.vercel.app/download, then choose
+   Check that you downloaded it from this page or from https://www.elimora.co.tz/download, then choose
    **More info** and **Run anyway**.
-4. You do not need to open the app yourself. Open your examination on Elimora and press
-   **Open the Examination Monitor**. When your browser asks whether to open it, allow it.
+4. You do not need to open the app yourself. Open your examination on https://www.elimora.co.tz and
+   press **Open the Examination Monitor**. When your browser asks whether to open it, allow it.
 
 ## What it does
 
 - It runs only during a monitored examination, after you agree, and stops when you hand in.
 - It never records your camera, microphone, keystrokes or files.
-- It works only with Elimora at https://elimora-platform.vercel.app. It refuses to connect to any other site.
+- It works only with Elimora at https://www.elimora.co.tz. It refuses to connect to any other site.
 
 ## Check your download (optional)
 
