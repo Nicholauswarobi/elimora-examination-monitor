@@ -1,0 +1,12 @@
+{
+  "label": "Examination Monitor 1.0.2 (release)",
+  "version": "1.0.2",
+  "requested_at": "2026-10-21T12:18:03.525Z",
+  "source": {
+    "release_id": 419520722,
+    "asset": "source-b290438903dc.tgz",
+    "sha256": "f0c919cec82fed4c9ae74732c7330ff9528f619c0c32a6d9f39886e1a4a73af4",
+    "tree": "b290438903dc76fc36220f59dbf560a683c7fa7f"
+  },
+  "target_release_id": 419520835
+}
