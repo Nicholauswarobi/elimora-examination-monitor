@@ -1,0 +1,66 @@
+# ============================================================================
+# Builds and tests the Elimora Examination Monitor on real Windows, macOS
+# (Apple silicon and Intel) and Linux machines, and attaches the installers to
+# a DRAFT release of this repository.
+#
+# The app's source code is not in this repository. Each build is started by a
+# commit to build.json on this branch (written by the maintainer's
+# apps/exam-monitor-desktop/ci/remote.mjs), which names a source snapshot kept
+# as an asset of a DRAFT release here. Drafts are visible only to the
+# repository's maintainers, so the source stays private; what is public is this
+# file, the run's log and, once a maintainer publishes a release, the
+# installers.
+#
+# Every runner runs the same script (ci/run.sh inside the snapshot): type-check,
+# unit tests, the real app's runtime tests, install the way a student does, let
+# the operating system open the app from a link, then build the release
+# installers and smoke-test them. Nothing is signed here.
+# ============================================================================
+name: Build and test
+
+on:
+  push:
+    branches: [ci]
+    paths: [build.json]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: monitor-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: ${{ matrix.id }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { id: windows-x64, runner: windows-latest, kind: windows, arch: x64, publish: "true" }
+          - { id: macos-15-arm64, runner: macos-15, kind: macos, arch: arm64, publish: "true" }
+          - { id: macos-15-x64, runner: macos-15-intel, kind: macos, arch: x64, publish: "true" }
+          - { id: macos-26-arm64, runner: macos-26, kind: macos, arch: arm64, publish: "false" }
+          - { id: ubuntu-24.04-x64, runner: ubuntu-24.04, kind: linux, arch: x64, publish: "true" }
+          - { id: ubuntu-22.04-x64, runner: ubuntu-22.04, kind: linux, arch: x64, publish: "false" }
+    env:
+      GH_TOKEN: ${{ github.token }}
+      JOB_ID: ${{ matrix.id }}
+      PUBLISH: ${{ matrix.publish }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch the source snapshot
+        shell: bash
+        run: node ci/fetch-source.mjs "$RUNNER_TEMP/src"
+      - name: Build and test
+        shell: bash
+        run: bash "$RUNNER_TEMP/src/apps/exam-monitor-desktop/ci/run.sh" "${{ matrix.kind }}" "${{ matrix.arch }}" "$RUNNER_TEMP/out"
+      - name: Report and publish
+        if: always()
+        shell: bash
+        run: node ci/publish.mjs "$RUNNER_TEMP/out"
